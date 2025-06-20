@@ -1017,6 +1017,31 @@ export interface ApiMessageMessage extends Struct.CollectionTypeSchema {
   };
 }
 
+export interface ApiNameName extends Struct.CollectionTypeSchema {
+  collectionName: 'names';
+  info: {
+    displayName: 'name';
+    pluralName: 'names';
+    singularName: 'name';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    fname: Schema.Attribute.String;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<'oneToMany', 'api::name.name'> &
+      Schema.Attribute.Private;
+    publishedAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
 export interface ApiQuestionAssessmentQuestionAssessment
   extends Struct.CollectionTypeSchema {
   collectionName: 'question_assessments';
@@ -1713,6 +1738,7 @@ declare module '@strapi/strapi' {
       'api::marketer.marketer': ApiMarketerMarketer;
       'api::material.material': ApiMaterialMaterial;
       'api::message.message': ApiMessageMessage;
+      'api::name.name': ApiNameName;
       'api::question-assessment.question-assessment': ApiQuestionAssessmentQuestionAssessment;
       'api::question.question': ApiQuestionQuestion;
       'api::submission.submission': ApiSubmissionSubmission;
