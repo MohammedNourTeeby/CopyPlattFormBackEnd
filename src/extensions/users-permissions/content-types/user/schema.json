@@ -113,6 +113,18 @@
       "relation": "oneToMany",
       "target": "api::marketer.marketer",
       "mappedBy": "users_permissions_user"
+    },
+    "assessment": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::assessment.assessment",
+      "mappedBy": "users_permissions_user"
+    },
+    "submission": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::submission.submission",
+      "mappedBy": "users_permissions_user"
     }
   }
 }

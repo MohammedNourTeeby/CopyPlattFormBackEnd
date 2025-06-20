@@ -1,0 +1,31 @@
+{
+  "kind": "collectionType",
+  "collectionName": "question_assessments",
+  "info": {
+    "singularName": "question-assessment",
+    "pluralName": "question-assessments",
+    "displayName": "QuestionAssessment"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true
+    },
+    "assessment": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::assessment.assessment",
+      "inversedBy": "question_assessments"
+    },
+    "submission": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::submission.submission",
+      "mappedBy": "question_assessment"
+    }
+  }
+}

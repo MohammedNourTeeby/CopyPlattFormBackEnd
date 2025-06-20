@@ -477,6 +477,51 @@ export interface ApiArticleArticle extends Struct.CollectionTypeSchema {
   };
 }
 
+export interface ApiAssessmentAssessment extends Struct.CollectionTypeSchema {
+  collectionName: 'assessments';
+  info: {
+    displayName: 'Assessment';
+    pluralName: 'assessments';
+    singularName: 'assessment';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    description: Schema.Attribute.Text;
+    invitations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::invitation.invitation'
+    >;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::assessment.assessment'
+    > &
+      Schema.Attribute.Private;
+    publishedAt: Schema.Attribute.DateTime;
+    question_assessments: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::question-assessment.question-assessment'
+    >;
+    submissions: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::submission.submission'
+    >;
+    title: Schema.Attribute.String & Schema.Attribute.Required;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    users_permissions_user: Schema.Attribute.Relation<
+      'oneToOne',
+      'plugin::users-permissions.user'
+    >;
+  };
+}
+
 export interface ApiAuthorAuthor extends Struct.CollectionTypeSchema {
   collectionName: 'authors';
   info: {
@@ -819,6 +864,42 @@ export interface ApiInvitationLinkInvitationLink
   };
 }
 
+export interface ApiInvitationInvitation extends Struct.CollectionTypeSchema {
+  collectionName: 'invitations';
+  info: {
+    displayName: 'Invitation';
+    pluralName: 'invitations';
+    singularName: 'invitation';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    assessment: Schema.Attribute.Relation<
+      'manyToOne',
+      'api::assessment.assessment'
+    >;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::invitation.invitation'
+    > &
+      Schema.Attribute.Private;
+    publishedAt: Schema.Attribute.DateTime;
+    statu: Schema.Attribute.Enumeration<
+      ["'sent'", "'completed'", "'pending'"]
+    > &
+      Schema.Attribute.DefaultTo<"'pending'">;
+    student_email: Schema.Attribute.Email & Schema.Attribute.Required;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
 export interface ApiMarketerMarketer extends Struct.CollectionTypeSchema {
   collectionName: 'marketers';
   info: {
@@ -936,6 +1017,43 @@ export interface ApiMessageMessage extends Struct.CollectionTypeSchema {
   };
 }
 
+export interface ApiQuestionAssessmentQuestionAssessment
+  extends Struct.CollectionTypeSchema {
+  collectionName: 'question_assessments';
+  info: {
+    displayName: 'QuestionAssessment';
+    pluralName: 'question-assessments';
+    singularName: 'question-assessment';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    assessment: Schema.Attribute.Relation<
+      'manyToOne',
+      'api::assessment.assessment'
+    >;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::question-assessment.question-assessment'
+    > &
+      Schema.Attribute.Private;
+    publishedAt: Schema.Attribute.DateTime;
+    submission: Schema.Attribute.Relation<
+      'oneToOne',
+      'api::submission.submission'
+    >;
+    title: Schema.Attribute.String & Schema.Attribute.Required;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
 export interface ApiQuestionQuestion extends Struct.CollectionTypeSchema {
   collectionName: 'questions';
   info: {
@@ -970,6 +1088,46 @@ export interface ApiQuestionQuestion extends Struct.CollectionTypeSchema {
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
+  };
+}
+
+export interface ApiSubmissionSubmission extends Struct.CollectionTypeSchema {
+  collectionName: 'submissions';
+  info: {
+    displayName: 'Submission';
+    pluralName: 'submissions';
+    singularName: 'submission';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    assessment: Schema.Attribute.Relation<
+      'manyToOne',
+      'api::assessment.assessment'
+    >;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::submission.submission'
+    > &
+      Schema.Attribute.Private;
+    publishedAt: Schema.Attribute.DateTime;
+    question_assessment: Schema.Attribute.Relation<
+      'oneToOne',
+      'api::question-assessment.question-assessment'
+    >;
+    rating: Schema.Attribute.Integer;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    users_permissions_user: Schema.Attribute.Relation<
+      'oneToOne',
+      'plugin::users-permissions.user'
+    >;
   };
 }
 
@@ -1467,6 +1625,10 @@ export interface PluginUsersPermissionsUser
       'oneToMany',
       'api::activity-log.activity-log'
     >;
+    assessment: Schema.Attribute.Relation<
+      'oneToOne',
+      'api::assessment.assessment'
+    >;
     blocked: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
     confirmationToken: Schema.Attribute.String & Schema.Attribute.Private;
     confirmed: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
@@ -1507,6 +1669,10 @@ export interface PluginUsersPermissionsUser
       'manyToOne',
       'plugin::users-permissions.role'
     >;
+    submission: Schema.Attribute.Relation<
+      'oneToOne',
+      'api::submission.submission'
+    >;
     tracks: Schema.Attribute.Relation<'oneToMany', 'api::track.track'>;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
@@ -1533,6 +1699,7 @@ declare module '@strapi/strapi' {
       'api::about.about': ApiAboutAbout;
       'api::activity-log.activity-log': ApiActivityLogActivityLog;
       'api::article.article': ApiArticleArticle;
+      'api::assessment.assessment': ApiAssessmentAssessment;
       'api::author.author': ApiAuthorAuthor;
       'api::category.category': ApiCategoryCategory;
       'api::certificate.certificate': ApiCertificateCertificate;
@@ -1542,10 +1709,13 @@ declare module '@strapi/strapi' {
       'api::entry-test.entry-test': ApiEntryTestEntryTest;
       'api::global.global': ApiGlobalGlobal;
       'api::invitation-link.invitation-link': ApiInvitationLinkInvitationLink;
+      'api::invitation.invitation': ApiInvitationInvitation;
       'api::marketer.marketer': ApiMarketerMarketer;
       'api::material.material': ApiMaterialMaterial;
       'api::message.message': ApiMessageMessage;
+      'api::question-assessment.question-assessment': ApiQuestionAssessmentQuestionAssessment;
       'api::question.question': ApiQuestionQuestion;
+      'api::submission.submission': ApiSubmissionSubmission;
       'api::track.track': ApiTrackTrack;
       'plugin::content-releases.release': PluginContentReleasesRelease;
       'plugin::content-releases.release-action': PluginContentReleasesReleaseAction;

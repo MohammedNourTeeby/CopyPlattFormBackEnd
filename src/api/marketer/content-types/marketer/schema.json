@@ -31,8 +31,10 @@
     },
     "statu": {
       "type": "enumeration",
-        "enum": ["active", "unactive"]
-
+      "enum": [
+        "active",
+        "unactive"
+      ]
     },
     "registrationDate": {
       "type": "date"
