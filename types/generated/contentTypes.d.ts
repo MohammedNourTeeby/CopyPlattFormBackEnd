@@ -1042,6 +1042,41 @@ export interface ApiNameName extends Struct.CollectionTypeSchema {
   };
 }
 
+export interface ApiNotificationNotification
+  extends Struct.CollectionTypeSchema {
+  collectionName: 'notifications';
+  info: {
+    displayName: 'Notification';
+    pluralName: 'notifications';
+    singularName: 'notification';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::notification.notification'
+    > &
+      Schema.Attribute.Private;
+    message: Schema.Attribute.Text;
+    publishedAt: Schema.Attribute.DateTime;
+    read: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
+    type: Schema.Attribute.Enumeration<["'general'", "'reminder'"]>;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    users_permissions_users: Schema.Attribute.Relation<
+      'manyToMany',
+      'plugin::users-permissions.user'
+    >;
+  };
+}
+
 export interface ApiQuestionAssessmentQuestionAssessment
   extends Struct.CollectionTypeSchema {
   collectionName: 'question_assessments';
@@ -1680,6 +1715,10 @@ export interface PluginUsersPermissionsUser
       Schema.Attribute.Private;
     marketers: Schema.Attribute.Relation<'oneToMany', 'api::marketer.marketer'>;
     message: Schema.Attribute.Relation<'oneToOne', 'api::message.message'>;
+    notifications: Schema.Attribute.Relation<
+      'manyToMany',
+      'api::notification.notification'
+    >;
     password: Schema.Attribute.Password &
       Schema.Attribute.Private &
       Schema.Attribute.SetMinMaxLength<{
@@ -1739,6 +1778,7 @@ declare module '@strapi/strapi' {
       'api::material.material': ApiMaterialMaterial;
       'api::message.message': ApiMessageMessage;
       'api::name.name': ApiNameName;
+      'api::notification.notification': ApiNotificationNotification;
       'api::question-assessment.question-assessment': ApiQuestionAssessmentQuestionAssessment;
       'api::question.question': ApiQuestionQuestion;
       'api::submission.submission': ApiSubmissionSubmission;

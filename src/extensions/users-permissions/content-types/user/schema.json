@@ -125,6 +125,12 @@
       "relation": "oneToOne",
       "target": "api::submission.submission",
       "mappedBy": "users_permissions_user"
+    },
+    "notifications": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::notification.notification",
+      "mappedBy": "users_permissions_users"
     }
   }
 }
