@@ -437,6 +437,103 @@ export interface ApiActivityLogActivityLog extends Struct.CollectionTypeSchema {
   };
 }
 
+export interface ApiAdSetAdSet extends Struct.CollectionTypeSchema {
+  collectionName: 'ad_sets';
+  info: {
+    displayName: 'AdSet';
+    pluralName: 'ad-sets';
+    singularName: 'ad-set';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    audienceTargeting: Schema.Attribute.JSON;
+    budget: Schema.Attribute.Decimal;
+    campaigns: Schema.Attribute.Relation<'oneToMany', 'api::campaign.campaign'>;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::ad-set.ad-set'
+    > &
+      Schema.Attribute.Private;
+    publishedAt: Schema.Attribute.DateTime;
+    schedule: Schema.Attribute.JSON;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiAdAd extends Struct.CollectionTypeSchema {
+  collectionName: 'ads';
+  info: {
+    displayName: 'Ad';
+    pluralName: 'ads';
+    singularName: 'ad';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    adSet: Schema.Attribute.String;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    cta: Schema.Attribute.String;
+    headline: Schema.Attribute.String;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<'oneToMany', 'api::ad.ad'> &
+      Schema.Attribute.Private;
+    media: Schema.Attribute.Media<
+      'images' | 'files' | 'videos' | 'audios',
+      true
+    >;
+    publishedAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiAdvertiserAccountAdvertiserAccount
+  extends Struct.CollectionTypeSchema {
+  collectionName: 'advertiser_accounts';
+  info: {
+    displayName: 'AdvertiserAccount';
+    pluralName: 'advertiser-accounts';
+    singularName: 'advertiser-account';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    businessName: Schema.Attribute.String;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    currency: Schema.Attribute.String;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::advertiser-account.advertiser-account'
+    > &
+      Schema.Attribute.Private;
+    publishedAt: Schema.Attribute.DateTime;
+    timezone: Schema.Attribute.String;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    users_permissions_user: Schema.Attribute.Relation<
+      'oneToOne',
+      'plugin::users-permissions.user'
+    >;
+  };
+}
+
 export interface ApiArticleArticle extends Struct.CollectionTypeSchema {
   collectionName: 'articles';
   info: {
@@ -548,6 +645,43 @@ export interface ApiAuthorAuthor extends Struct.CollectionTypeSchema {
       Schema.Attribute.Private;
     name: Schema.Attribute.String;
     publishedAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiCampaignCampaign extends Struct.CollectionTypeSchema {
+  collectionName: 'campaigns';
+  info: {
+    description: '';
+    displayName: 'Campaign';
+    pluralName: 'campaigns';
+    singularName: 'campaign';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    bannerImage: Schema.Attribute.Media<'images'>;
+    budget: Schema.Attribute.Decimal & Schema.Attribute.Required;
+    course: Schema.Attribute.Relation<'oneToOne', 'api::course.course'>;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    description: Schema.Attribute.Text;
+    endDate: Schema.Attribute.Date & Schema.Attribute.Required;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::campaign.campaign'
+    > &
+      Schema.Attribute.Private;
+    publishedAt: Schema.Attribute.DateTime;
+    startDate: Schema.Attribute.Date & Schema.Attribute.Required;
+    status: Schema.Attribute.Enumeration<['pending', 'active', 'ended']> &
+      Schema.Attribute.DefaultTo<'pending'>;
+    title: Schema.Attribute.String & Schema.Attribute.Required;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -1685,11 +1819,16 @@ export interface PluginUsersPermissionsUser
       'oneToMany',
       'api::activity-log.activity-log'
     >;
+    advertiser_account: Schema.Attribute.Relation<
+      'oneToOne',
+      'api::advertiser-account.advertiser-account'
+    >;
     assessment: Schema.Attribute.Relation<
       'oneToOne',
       'api::assessment.assessment'
     >;
     blocked: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
+    campaigns: Schema.Attribute.Relation<'oneToMany', 'api::campaign.campaign'>;
     confirmationToken: Schema.Attribute.String & Schema.Attribute.Private;
     confirmed: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
     course_chat: Schema.Attribute.Relation<
@@ -1762,9 +1901,13 @@ declare module '@strapi/strapi' {
       'admin::user': AdminUser;
       'api::about.about': ApiAboutAbout;
       'api::activity-log.activity-log': ApiActivityLogActivityLog;
+      'api::ad-set.ad-set': ApiAdSetAdSet;
+      'api::ad.ad': ApiAdAd;
+      'api::advertiser-account.advertiser-account': ApiAdvertiserAccountAdvertiserAccount;
       'api::article.article': ApiArticleArticle;
       'api::assessment.assessment': ApiAssessmentAssessment;
       'api::author.author': ApiAuthorAuthor;
+      'api::campaign.campaign': ApiCampaignCampaign;
       'api::category.category': ApiCategoryCategory;
       'api::certificate.certificate': ApiCertificateCertificate;
       'api::coupon.coupon': ApiCouponCoupon;

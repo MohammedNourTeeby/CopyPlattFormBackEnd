@@ -131,6 +131,18 @@
       "relation": "manyToMany",
       "target": "api::notification.notification",
       "mappedBy": "users_permissions_users"
+    },
+    "advertiser_account": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::advertiser-account.advertiser-account",
+      "mappedBy": "users_permissions_user"
+    },
+    "campaigns": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::campaign.campaign",
+      "mappedBy": "users_permissions_user"
     }
   }
 }

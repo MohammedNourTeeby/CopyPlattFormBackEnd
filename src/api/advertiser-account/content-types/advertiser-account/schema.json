@@ -1,0 +1,30 @@
+  {
+  "kind": "collectionType",
+  "collectionName": "advertiser_accounts",
+  "info": {
+    "singularName": "advertiser-account",
+    "pluralName": "advertiser-accounts",
+    "displayName": "AdvertiserAccount"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "businessName": {
+      "type": "string"
+    },
+    "timezone": {
+      "type": "string"
+    },
+    "currency": {
+      "type": "string"
+    },
+    "users_permissions_user": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "plugin::users-permissions.user",
+      "inversedBy": "advertiser_account"
+    }
+  }
+}
