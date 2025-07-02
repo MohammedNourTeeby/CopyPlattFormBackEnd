@@ -7,7 +7,17 @@ module.exports = ({ env }) => ({
         expiresIn: '7d',
       },
       register: {
-        allowedFields: ['username', 'email', 'phone', 'whatsapp'],
+        allowedFields: [
+          'username',
+    'email',
+    'phone',
+    'whatsapp',
+    'jobTitle',
+    'department',
+    'facebookLink',
+    'bio',
+    'profileImage'
+  ],
       },
       providers: [
         {

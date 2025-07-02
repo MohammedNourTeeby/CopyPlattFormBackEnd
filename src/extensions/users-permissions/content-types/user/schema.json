@@ -132,17 +132,19 @@
       "target": "api::notification.notification",
       "mappedBy": "users_permissions_users"
     },
-    "advertiser_account": {
-      "type": "relation",
-      "relation": "oneToOne",
-      "target": "api::advertiser-account.advertiser-account",
-      "mappedBy": "users_permissions_user"
+    "bio": {
+      "type": "blocks"
     },
-    "campaigns": {
-      "type": "relation",
-      "relation": "oneToMany",
-      "target": "api::campaign.campaign",
-      "mappedBy": "users_permissions_user"
+    "profileImage": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": [
+        "images",
+        "files"
+      ]
+    },
+    "facebookLink": {
+      "type": "string"
     }
   }
 }
