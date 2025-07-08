@@ -1,0 +1,56 @@
+{
+  "kind": "collectionType",
+  "collectionName": "tasks",
+  "info": {
+    "singularName": "task",
+    "pluralName": "tasks",
+    "displayName": "task"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "title": {
+      "type": "string"
+    },
+    "description": {
+      "type": "string"
+    },
+    "priority": {
+      "type": "enumeration",
+      "enum": [
+        "'critical'",
+        "'high'",
+        "'medium'",
+        "'low'"
+      ]
+    },
+    "users_permissions_user": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "plugin::users-permissions.user",
+      "inversedBy": "tasks"
+    },
+    "dueDate": {
+      "type": "datetime"
+    },
+    "roleType": {
+      "type": "enumeration",
+      "enum": [
+        "'technician'",
+        "'support'",
+        "'management'",
+        "'quality'"
+      ]
+    },
+    "statu": {
+      "type": "enumeration",
+      "enum": [
+        "'todo'",
+        "'inProgress'",
+        "'done'"
+      ]
+    }
+  }
+}

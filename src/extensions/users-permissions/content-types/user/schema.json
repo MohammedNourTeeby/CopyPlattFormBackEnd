@@ -145,6 +145,18 @@
     },
     "facebookLink": {
       "type": "string"
+    },
+    "payments": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::payment.payment",
+      "mappedBy": "users_permissions_user"
+    },
+    "tasks": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::task.task",
+      "mappedBy": "users_permissions_user"
     }
   }
 }

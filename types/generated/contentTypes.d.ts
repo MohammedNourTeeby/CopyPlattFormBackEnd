@@ -1077,6 +1077,47 @@ export interface ApiNotificationNotification
   };
 }
 
+export interface ApiPaymentPayment extends Struct.CollectionTypeSchema {
+  collectionName: 'payments';
+  info: {
+    displayName: 'Payment';
+    pluralName: 'payments';
+    singularName: 'payment';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    amount: Schema.Attribute.Decimal;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    currency: Schema.Attribute.String;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::payment.payment'
+    > &
+      Schema.Attribute.Private;
+    paymentMethod: Schema.Attribute.String;
+    publishedAt: Schema.Attribute.DateTime;
+    statu: Schema.Attribute.Enumeration<
+      [
+        "'\u0645\u0643\u062A\u0645\u0644'",
+        "'\u0645\u0639\u0644\u0642'",
+        "'\u0641\u0627\u0634\u0644'",
+      ]
+    >;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    users_permissions_user: Schema.Attribute.Relation<
+      'manyToOne',
+      'plugin::users-permissions.user'
+    >;
+  };
+}
+
 export interface ApiQuestionAssessmentQuestionAssessment
   extends Struct.CollectionTypeSchema {
   collectionName: 'question_assessments';
@@ -1186,6 +1227,86 @@ export interface ApiSubmissionSubmission extends Struct.CollectionTypeSchema {
       Schema.Attribute.Private;
     users_permissions_user: Schema.Attribute.Relation<
       'oneToOne',
+      'plugin::users-permissions.user'
+    >;
+  };
+}
+
+export interface ApiSupportTicketSupportTicket
+  extends Struct.CollectionTypeSchema {
+  collectionName: 'support_tickets';
+  info: {
+    displayName: 'SupportTicket';
+    pluralName: 'support-tickets';
+    singularName: 'support-ticket';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    adminReply: Schema.Attribute.Text;
+    content: Schema.Attribute.Text;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::support-ticket.support-ticket'
+    > &
+      Schema.Attribute.Private;
+    publishedAt: Schema.Attribute.DateTime;
+    statu: Schema.Attribute.Enumeration<
+      [
+        "'\u0645\u0641\u062A\u0648\u062D\u0629'",
+        "'\u0642\u064A\u062F \u0627\u0644\u0645\u0639\u0627\u0644\u062C\u0629'",
+        "'\u0645\u063A\u0644\u0642\u0629'",
+      ]
+    > &
+      Schema.Attribute.DefaultTo<"'\u0645\u0641\u062A\u0648\u062D\u0629'">;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    users_permissions_user: Schema.Attribute.Relation<
+      'oneToOne',
+      'plugin::users-permissions.user'
+    >;
+  };
+}
+
+export interface ApiTaskTask extends Struct.CollectionTypeSchema {
+  collectionName: 'tasks';
+  info: {
+    displayName: 'task';
+    pluralName: 'tasks';
+    singularName: 'task';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    description: Schema.Attribute.String;
+    dueDate: Schema.Attribute.DateTime;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<'oneToMany', 'api::task.task'> &
+      Schema.Attribute.Private;
+    priority: Schema.Attribute.Enumeration<
+      ["'critical'", "'high'", "'medium'", "'low'"]
+    >;
+    publishedAt: Schema.Attribute.DateTime;
+    roleType: Schema.Attribute.Enumeration<
+      ["'technician'", "'support'", "'management'", "'quality'"]
+    >;
+    statu: Schema.Attribute.Enumeration<["'todo'", "'inProgress'", "'done'"]>;
+    title: Schema.Attribute.String;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    users_permissions_user: Schema.Attribute.Relation<
+      'manyToOne',
       'plugin::users-permissions.user'
     >;
   };
@@ -1765,6 +1886,7 @@ export interface PluginUsersPermissionsUser
       Schema.Attribute.SetMinMaxLength<{
         minLength: 6;
       }>;
+    payments: Schema.Attribute.Relation<'oneToMany', 'api::payment.payment'>;
     permissions: Schema.Attribute.JSON;
     phone: Schema.Attribute.String;
     profileImage: Schema.Attribute.Media<'images' | 'files'>;
@@ -1779,6 +1901,7 @@ export interface PluginUsersPermissionsUser
       'oneToOne',
       'api::submission.submission'
     >;
+    tasks: Schema.Attribute.Relation<'oneToMany', 'api::task.task'>;
     tracks: Schema.Attribute.Relation<'oneToMany', 'api::track.track'>;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
@@ -1821,9 +1944,12 @@ declare module '@strapi/strapi' {
       'api::message.message': ApiMessageMessage;
       'api::name.name': ApiNameName;
       'api::notification.notification': ApiNotificationNotification;
+      'api::payment.payment': ApiPaymentPayment;
       'api::question-assessment.question-assessment': ApiQuestionAssessmentQuestionAssessment;
       'api::question.question': ApiQuestionQuestion;
       'api::submission.submission': ApiSubmissionSubmission;
+      'api::support-ticket.support-ticket': ApiSupportTicketSupportTicket;
+      'api::task.task': ApiTaskTask;
       'api::track.track': ApiTrackTrack;
       'api::user-profile.user-profile': ApiUserProfileUserProfile;
       'plugin::content-releases.release': PluginContentReleasesRelease;
