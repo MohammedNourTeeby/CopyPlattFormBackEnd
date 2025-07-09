@@ -1118,6 +1118,41 @@ export interface ApiPaymentPayment extends Struct.CollectionTypeSchema {
   };
 }
 
+export interface ApiPoliciePolicie extends Struct.CollectionTypeSchema {
+  collectionName: 'policies';
+  info: {
+    displayName: 'policie';
+    pluralName: 'policies';
+    singularName: 'policie';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    content: Schema.Attribute.Text;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    instruction: Schema.Attribute.Text;
+    is_active: Schema.Attribute.Boolean;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::policie.policie'
+    > &
+      Schema.Attribute.Private;
+    notification: Schema.Attribute.Text;
+    platform: Schema.Attribute.Component<'shared.social-links', false>;
+    publishedAt: Schema.Attribute.DateTime;
+    slug: Schema.Attribute.String;
+    sociallink: Schema.Attribute.String;
+    title: Schema.Attribute.String;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
 export interface ApiQuestionAssessmentQuestionAssessment
   extends Struct.CollectionTypeSchema {
   collectionName: 'question_assessments';
@@ -1945,6 +1980,7 @@ declare module '@strapi/strapi' {
       'api::name.name': ApiNameName;
       'api::notification.notification': ApiNotificationNotification;
       'api::payment.payment': ApiPaymentPayment;
+      'api::policie.policie': ApiPoliciePolicie;
       'api::question-assessment.question-assessment': ApiQuestionAssessmentQuestionAssessment;
       'api::question.question': ApiQuestionQuestion;
       'api::submission.submission': ApiSubmissionSubmission;

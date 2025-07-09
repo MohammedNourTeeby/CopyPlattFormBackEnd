@@ -1,0 +1,41 @@
+{
+  "kind": "collectionType",
+  "collectionName": "policies",
+  "info": {
+    "singularName": "policie",
+    "pluralName": "policies",
+    "displayName": "policie"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "title": {
+      "type": "string"
+    },
+    "slug": {
+      "type": "string"
+    },
+    "content": {
+      "type": "text"
+    },
+    "is_active": {
+      "type": "boolean"
+    },
+    "sociallink": {
+      "type": "string"
+    },
+    "notification": {
+      "type": "text"
+    },
+    "instruction": {
+      "type": "text"
+    },
+    "platform": {
+      "type": "component",
+      "component": "shared.social-links",
+      "repeatable": false
+    }
+  }
+}
