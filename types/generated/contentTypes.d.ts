@@ -1294,13 +1294,13 @@ export interface ApiTaskTask extends Struct.CollectionTypeSchema {
     localizations: Schema.Attribute.Relation<'oneToMany', 'api::task.task'> &
       Schema.Attribute.Private;
     priority: Schema.Attribute.Enumeration<
-      ["'critical'", "'high'", "'medium'", "'low'"]
+      ['critical', 'high', 'medium', 'low']
     >;
     publishedAt: Schema.Attribute.DateTime;
     roleType: Schema.Attribute.Enumeration<
-      ["'technician'", "'support'", "'management'", "'quality'"]
+      ['technician', 'support', 'management', 'quality']
     >;
-    statu: Schema.Attribute.Enumeration<["'todo'", "'inProgress'", "'done'"]>;
+    statu: Schema.Attribute.Enumeration<['todo', 'inProgress', 'done']>;
     title: Schema.Attribute.String;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &

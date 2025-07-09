@@ -20,10 +20,10 @@
     "priority": {
       "type": "enumeration",
       "enum": [
-        "'critical'",
-        "'high'",
-        "'medium'",
-        "'low'"
+        "critical",
+        "high",
+        "medium",
+        "low"
       ]
     },
     "users_permissions_user": {
@@ -38,18 +38,18 @@
     "roleType": {
       "type": "enumeration",
       "enum": [
-        "'technician'",
-        "'support'",
-        "'management'",
-        "'quality'"
+        "technician",
+        "support",
+        "management",
+        "quality"
       ]
     },
     "statu": {
       "type": "enumeration",
       "enum": [
-        "'todo'",
-        "'inProgress'",
-        "'done'"
+        "todo",
+        "inProgress",
+        "done"
       ]
     }
   }
