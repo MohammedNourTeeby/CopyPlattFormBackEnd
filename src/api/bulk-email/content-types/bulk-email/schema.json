@@ -1,0 +1,41 @@
+{
+  "kind": "collectionType",
+  "collectionName": "bulk_emails",
+  "info": {
+    "singularName": "bulk-email",
+    "pluralName": "bulk-emails",
+    "displayName": "bulk-email"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "subject": {
+      "type": "string"
+    },
+    "content": {
+      "type": "text"
+    },
+    "users_permissions_user": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "plugin::users-permissions.user",
+      "inversedBy": "bulk_emails"
+    },
+    "statu": {
+      "type": "enumeration",
+      "enum": [
+        "pending",
+        "sent",
+        "failed"
+      ]
+    },
+    "sentAt": {
+      "type": "datetime"
+    },
+    "error": {
+      "type": "string"
+    }
+  }
+}

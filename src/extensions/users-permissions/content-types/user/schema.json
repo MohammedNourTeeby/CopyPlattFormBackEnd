@@ -157,6 +157,12 @@
       "relation": "oneToMany",
       "target": "api::task.task",
       "mappedBy": "users_permissions_user"
+    },
+    "bulk_emails": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::bulk-email.bulk-email",
+      "mappedBy": "users_permissions_user"
     }
   }
 }

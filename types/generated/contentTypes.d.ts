@@ -554,6 +554,42 @@ export interface ApiAuthorAuthor extends Struct.CollectionTypeSchema {
   };
 }
 
+export interface ApiBulkEmailBulkEmail extends Struct.CollectionTypeSchema {
+  collectionName: 'bulk_emails';
+  info: {
+    displayName: 'bulk-email';
+    pluralName: 'bulk-emails';
+    singularName: 'bulk-email';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    content: Schema.Attribute.Text;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    error: Schema.Attribute.String;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::bulk-email.bulk-email'
+    > &
+      Schema.Attribute.Private;
+    publishedAt: Schema.Attribute.DateTime;
+    sentAt: Schema.Attribute.DateTime;
+    statu: Schema.Attribute.Enumeration<['pending', 'sent', 'failed']>;
+    subject: Schema.Attribute.String;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    users_permissions_user: Schema.Attribute.Relation<
+      'manyToOne',
+      'plugin::users-permissions.user'
+    >;
+  };
+}
+
 export interface ApiCategoryCategory extends Struct.CollectionTypeSchema {
   collectionName: 'categories';
   info: {
@@ -1057,6 +1093,7 @@ export interface ApiNotificationNotification
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
+    emailContent: Schema.Attribute.Text;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
       'oneToMany',
@@ -1066,7 +1103,8 @@ export interface ApiNotificationNotification
     message: Schema.Attribute.Text;
     publishedAt: Schema.Attribute.DateTime;
     read: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
-    type: Schema.Attribute.Enumeration<["'general'", "'reminder'"]>;
+    sendEmail: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
+    type: Schema.Attribute.Enumeration<['general', 'reminder']>;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -1886,6 +1924,10 @@ export interface PluginUsersPermissionsUser
     >;
     bio: Schema.Attribute.Blocks;
     blocked: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
+    bulk_emails: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::bulk-email.bulk-email'
+    >;
     confirmationToken: Schema.Attribute.String & Schema.Attribute.Private;
     confirmed: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
     course_chat: Schema.Attribute.Relation<
@@ -1965,6 +2007,7 @@ declare module '@strapi/strapi' {
       'api::article.article': ApiArticleArticle;
       'api::assessment.assessment': ApiAssessmentAssessment;
       'api::author.author': ApiAuthorAuthor;
+      'api::bulk-email.bulk-email': ApiBulkEmailBulkEmail;
       'api::category.category': ApiCategoryCategory;
       'api::certificate.certificate': ApiCertificateCertificate;
       'api::coupon.coupon': ApiCouponCoupon;
